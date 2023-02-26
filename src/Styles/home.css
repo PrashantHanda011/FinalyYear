@@ -1,14 +1,64 @@
-.side-design{
-    height: 100vh;
-    background: #c31432;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
+.home {
+    margin: 0;
 }
 
-.navigate-btn{
-    background-color: #240b36;
+.home_box {
+    background-color: rgb(0, 0, 0);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.character_container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.character_container ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    list-style: none;
+    margin-top: 3rem;
+}
+
+.character_container ul li {
+    cursor: pointer;
+}
+
+.character_container ul li h5 {
+    color: grey;
+    margin-top: 1rem;
+}
+
+
+.character_container h2 {
     color: white;
-    border-radius: 10px;
-    padding: 5px 20px;    
+}
+
+.character_container ul li img {
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.character_container ul li img:hover {
+    border: 5px solid rgb(207, 26, 26);
+}
+
+.character_container ul li:hover h5 {
+    color: rgb(207, 26, 26);
+}
+
+.character_selected_img {
+    border: 5px solid rgb(207, 26, 26);
+}
+
+.character_selected_text {
+    color: rgb(207, 26, 26) !important;
 }
