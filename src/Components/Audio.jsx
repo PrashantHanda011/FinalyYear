@@ -61,6 +61,8 @@ const AudioRecorder = () => {
   };
 
   return (
+    <>
+    <div className ="d-flex flex-column justify-content-start align-items-start">
     <div>
       <button onClick={startRecording} disabled={recording}>
         Start Recording
@@ -78,10 +80,15 @@ const AudioRecorder = () => {
         <>
           <button onClick={handleDownloadClick}>Download Audio</button>
           <button onClick={handlePlaybackClick}>Play Recorded Audio</button>
-          <audio id="recorded-audio" controls></audio>
+          
         </>
       )}
+      </div>
+      <div>
+        <audio id="recorded-audio" controls></audio>
+      </div>
     </div>
+    </>
   );
 };
 
