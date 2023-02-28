@@ -49,7 +49,7 @@ const Home = () => {
                             </li>
                             <li>
                                 <img onClick={() => setcharacter(2)} className={`${character === 2 ? "character_selected_img" : null}`} src={doctor} alt="doctor strange" />
-                                <h5 className={`${character === 2 ? "character_selected_text" : null}`}>Docter Strange</h5>
+                                <h5 className={`${character === 2 ? "character_selected_text" : null}`}>Doctor Strange</h5>
 
                             </li>
                             <li>
