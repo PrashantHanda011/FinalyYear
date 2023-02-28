@@ -11,9 +11,9 @@ import questions from './Question';
 const Home = () => {
     const [character, setcharacter] = useState(0);
     const [page, setpage] = useState(0);
-    const [p,setp]=useState(1);
-    const handleChangeData=(p)=>{
-        setp(p => p+1);
+    const [p, setp] = useState(1);
+    const handleChangeData = (p) => {
+        setp(p => p + 1);
     }
     const [content, setcontent] = useState({
         surveyOption: "",
@@ -27,9 +27,15 @@ const Home = () => {
 
     useEffect(() => {
         if (p >= 1) {
-            setquestionData(questions[p-1])
+            setquestionData(questions[p - 1])
         }
     }, [p])
+
+    const handleQuestionChange = (value) => {
+        setcontent({ ...content, questions: [value] })
+    }
+
+    console.log(page)
     return (
         <div className='container-fluid p-0 home_box  p-2'>
             {
@@ -65,12 +71,12 @@ const Home = () => {
 
                 ) : (page === 1 ? (
                     <div className='d-flex justify-content-center align-items-center h-100'><SurveyOptions content={content} handleSurvey={handleSurvey} /></div>) : (
-                    page >= 2 && (<QuestionPage data={questionData} i={p } handleChangeData={handleChangeData}/>)
+                    page >= 2 && (<QuestionPage handleQuestionChange={handleQuestionChange} handlePage={() => setp(p + 1)} data={questionData} i={p} handleChangeData={handleChangeData} />)
                 ))
             }
             <div className='home_footer d-flex justify-content-end container'>
                 {
-                    character >= 1 && character <= 5 &&
+                    (character >= 1 && character <= 5) && page < 2 &&
                     <button onClick={() => setpage(page + 1)} className='btn btn-danger'>Next</button>
                 }
             </div>
