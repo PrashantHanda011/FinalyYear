@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/home.css'
 import captain from '../Assets/frontpage/captain.jpg'
 import doctor from '../Assets/frontpage/doctor.jfif'
@@ -15,10 +15,17 @@ const Home = () => {
         surveyOption: "",
         questions: []
     })
-    console.log(content)
+    const [questionData, setquestionData] = useState(undefined);
+
     const handleSurvey = (item) => {
         setcontent({ ...content, surveyOption: item })
     }
+
+    useEffect(() => {
+        if (page >= 2) {
+            setquestionData(questions[page - 2])
+        }
+    }, [page])
     return (
         <div className='container-fluid p-0 home_box  p-2'>
             {
@@ -54,7 +61,7 @@ const Home = () => {
 
                 ) : (page === 1 ? (
                     <div className='d-flex justify-content-center align-items-center h-100'><SurveyOptions content={content} handleSurvey={handleSurvey} /></div>) : (
-                    page >= 2 && (<QuestionPage />)
+                    page >= 2 && (<QuestionPage data={questionData} i={(page - 2) + 1} />)
                 ))
             }
             <div className='home_footer d-flex justify-content-end container'>
