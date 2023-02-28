@@ -1,0 +1,46 @@
+/* AudioRecorder Component CSS */
+div{
+    display:flex;
+    justify-content: center;
+}
+button {
+  background-color: #26599b; /* Green */
+  border: none;
+  color: white;
+  padding: 20px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+justify-content: space-evenly;
+  margin-top: 150px;
+ 
+  
+}
+
+button:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+audio {
+    
+  margin-top: 20px;
+  display:flex;
+  justify-content: center;
+}
+.recording-button {
+  background-color: blue;
+  color: rgb(76, 72, 72);
+  border: none;
+  padding: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+
+
+
+
