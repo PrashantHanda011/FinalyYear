@@ -11,6 +11,10 @@ import questions from './Question';
 const Home = () => {
     const [character, setcharacter] = useState(0);
     const [page, setpage] = useState(0);
+    const [p,setp]=useState(1);
+    const handleChangeData=(p)=>{
+        setp(p => p+1);
+    }
     const [content, setcontent] = useState({
         surveyOption: "",
         questions: []
@@ -22,10 +26,10 @@ const Home = () => {
     }
 
     useEffect(() => {
-        if (page >= 2) {
-            setquestionData(questions[page - 2])
+        if (p >= 1) {
+            setquestionData(questions[p-1])
         }
-    }, [page])
+    }, [p])
     return (
         <div className='container-fluid p-0 home_box  p-2'>
             {
@@ -61,7 +65,7 @@ const Home = () => {
 
                 ) : (page === 1 ? (
                     <div className='d-flex justify-content-center align-items-center h-100'><SurveyOptions content={content} handleSurvey={handleSurvey} /></div>) : (
-                    page >= 2 && (<QuestionPage data={questionData} i={(page - 2) + 1} />)
+                    page >= 2 && (<QuestionPage data={questionData} i={p } handleChangeData={handleChangeData}/>)
                 ))
             }
             <div className='home_footer d-flex justify-content-end container'>
