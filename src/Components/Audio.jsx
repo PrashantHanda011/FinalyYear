@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-
+import '../Styles/Audio.css'
 const AudioRecorder = () => {
   const [recording, setRecording] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -63,7 +63,14 @@ const AudioRecorder = () => {
   return (
     <>
     <div className ="d-flex flex-column justify-content-start align-items-start">
+    <div className="p-text">
+        <p className="text">
+        If you face a problem at work, what is the first thing you do?
+
+        </p>
+      </div>
     <div>
+     
       <button onClick={startRecording} disabled={recording}>
         Start Recording
       </button>
