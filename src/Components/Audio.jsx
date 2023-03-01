@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 
 const AudioRecorder = () => {
   const [recording, setRecording] = useState(false);
@@ -10,24 +10,23 @@ const AudioRecorder = () => {
   const chunks = useRef([]);
 
   const startRecording = () => {
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(stream => {
-        mediaRecorder.current = new MediaRecorder(stream);
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      mediaRecorder.current = new MediaRecorder(stream);
 
-        mediaRecorder.current.addEventListener('dataavailable', event => {
-          chunks.current.push(event.data);
-        });
-
-        mediaRecorder.current.addEventListener('stop', () => {
-          const audioBlob = new Blob(chunks.current, { type: 'audio/webm' });
-          setAudioBlob(audioBlob);
-          chunks.current = [];
-          setDownloadLink(URL.createObjectURL(audioBlob));
-        });
-
-        mediaRecorder.current.start();
-        setRecording(true);
+      mediaRecorder.current.addEventListener("dataavailable", (event) => {
+        chunks.current.push(event.data);
       });
+
+      mediaRecorder.current.addEventListener("stop", () => {
+        const audioBlob = new Blob(chunks.current, { type: "audio/webm" });
+        setAudioBlob(audioBlob);
+        chunks.current = [];
+        setDownloadLink(URL.createObjectURL(audioBlob));
+      });
+
+      mediaRecorder.current.start();
+      setRecording(true);
+    });
   };
 
   const pauseRecording = () => {
@@ -49,35 +48,47 @@ const AudioRecorder = () => {
   };
 
   const handleDownloadClick = () => {
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = downloadLink;
-    a.download = 'recorded-audio.webm';
+    a.download = "recorded-audio.webm";
     a.click();
   };
 
-  
-
   const handlePlaybackClick = () => {
-    const audioElement = document.getElementById('recorded-audio');
+    const audioElement = document.getElementById("recorded-audio");
     audioElement.src = downloadLink;
     audioElement.play();
   };
 
   return (
+    <>
+    <div className ="d-flex flex-column justify-content-start align-items-start">
     <div>
-      <button onClick={startRecording} disabled={recording}>Start Recording</button>
-      {/* <button onClick={pauseRecording} disabled={!recording || paused}>Pause Recording</button>
-      <button onClick={resumeRecording} disabled={!recording || !paused}>Resume Recording</button> */}
-      <button onClick={stopRecording} disabled={!recording}>Stop Recording</button>
+      <button onClick={startRecording} disabled={recording}>
+        Start Recording
+      </button>
+      <button onClick={pauseRecording} disabled={!recording || paused}>
+        Pause Recording
+      </button>
+      <button onClick={resumeRecording} disabled={!recording || !paused}>
+        Resume Recording
+      </button>
+      <button onClick={stopRecording} disabled={!recording}>
+        Stop Recording
+      </button>
       {downloadLink && (
         <>
           <button onClick={handleDownloadClick}>Download Audio</button>
-          {/* <button onClick={handleSaveClick}>Save to Local Storage</button> */}
           <button onClick={handlePlaybackClick}>Play Recorded Audio</button>
-          <audio id="recorded-audio" controls></audio>
+          
         </>
       )}
+      </div>
+      <div>
+        <audio id="recorded-audio" controls></audio>
+      </div>
     </div>
+    </>
   );
 };
 
