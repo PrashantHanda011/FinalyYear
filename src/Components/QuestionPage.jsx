@@ -1,45 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const QuestionPage = ({ data, i, handleChangeData, handlePage, handleQuestionChange }) => {
-    console.log(data)
-    const [isOptionSelected, setIsOptionSelected] = useState(false);
-    const handleOptionClick = () => {
-        setIsOptionSelected(true);
-    };
+const QuestionPage = ({ data, index }) => {
+  return (
+    <div className=' question_wrapper container'>
+      <h5>Q{index}. {data.question}</h5>
 
-    // const handleNextClick = () => {
-    //     if (isOptionSelected) {
-    //         handleChangeData(1);
-    //     }
-    //     setIsOptionSelected(false);
-    // };
-    const handleAnswer = (value) => {
-        handleQuestionChange(value)
-        setIsOptionSelected(true)
-    }
-
-    return (
-        <div className='question_box'>
-            <h5>Q{i}. {data?.question}</h5>
-            <div className='d-flex flex-column'>
-                <ul style={{ listStyle: "none" }}>
-
-                    {
-                        data?.options.map((item, index) => {
-                            return <li key={index} className="my-1" >
-                                <input className="form-check-input me-2 " onClick={handleAnswer} type="radio" name="exampleRadios" id="exampleRadios2" value={item} />
-                                {item}</li>
-                        })
-                    }
-                </ul>
+      <div className='my-4'>
+        {
+          data?.options?.map((item, i) => {
+            return <div key={i} className="form-check question_option">
+              <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+              <label className="form-check-label" for="flexRadioDefault1">
+                {item}
+              </label>
             </div>
-            {isOptionSelected && (
-                <button onClick={handlePage} className="btn btn-danger">
-                    Next
-                </button>
-            )}
-        </div>
-    );
+          })
+        }
+
+
+
+      </div>
+    </div>
+  );
 }
 
 export default QuestionPage;
