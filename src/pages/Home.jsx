@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CharacterPage from '../Components/CharacterPage';
+import CharacterPage from './CharacterPage';
 import Progressbar from '../Components/Progressbar';
 import QuestionPage from '../Components/QuestionPage';
 import '../Styles/home.css'
@@ -34,7 +34,9 @@ const Home = () => {
             <CharacterPage setGlobal={setGlobal} Global={Global} />
             : pageNo >= 1 ?
               <QuestionPage data={question[questionNo + 1]} index={questionNo + 1} handleQuestionAnswer={handleQuestionAnswer} />
-              : null
+              : pageNo == 100 ?
+                {/* <LongQuestion /> */ }
+                : null
         }
       </div>
 
