@@ -1,0 +1,21 @@
+.stepper {
+  list-style: none;
+}
+
+.stepper-head-icon {
+  height: 35px;
+  width: 35px;
+  background-color: white;
+  border-radius: 50%;
+  color: black;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-white-border {
+  border-bottom: 0.5px solid #6a6969;
+  width: 32%;
+  height: 0;
+}

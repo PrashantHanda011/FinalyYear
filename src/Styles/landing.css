@@ -1,0 +1,30 @@
+.landing_wrapper {
+  min-height: 100vh;
+}
+
+.landing_heading {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.landing_heading h2 {
+  font-size: 5rem;
+  font-weight: 700;
+}
+
+.landing_heading p {
+  font-size: 1rem;
+  margin-top: 10px;
+  color: lightgray;
+}
+
+.design_box {
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 0 0 0 10px;
+  background: linear-gradient(to left, #61045F, #AA076B);
+}

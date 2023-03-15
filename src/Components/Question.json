@@ -1,0 +1,193 @@
+[
+  {
+    "question": "You regularly make friends ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "Seeing other people cry can easily make you feel like you want to cry ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You usually stay calm even under a lot of pressure ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You like to use organizing tools like schedules and lists ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You spend a lot of your free time exploring various random topics that pique your interest ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You are more inclined to follow your heart than your mind ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You usually prefer just doing what you feel like at a given moment instead of planning a particular daily routine ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "Even a small mistake can cause you to doubt your overall abilities and knowledge ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You rarely worry about whether you make a good impression on people you meet ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You enjoy participating in group activities ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You avoid leadership roles in group settings ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You prefer to do your work before allowing yourself to relax ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You are still bothered by the mistakes that you have made in the past ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "Your emotions control you more than you control yourself ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You often feel overwhelmed ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "You feel confident that things will work out for you ?",
+    "survey": "short",
+    "options": [
+      "strongly disagree",
+      "disagree",
+      "neutral",
+      "agree",
+      "strongly agree"
+    ]
+  },
+  {
+    "question": "If you face a problem at work, what is the first thing you do ?",
+    "survey": "long",
+    "answer": ""
+  },
+  {
+    "question": "At social events you rarely try to introduce yourself to new people and mostly talk to the ones you already know ?",
+    "survey": "long",
+    "answer": ""
+  },
+  {
+    "question": "You would pass along a good opportunity if you thought someone else needed it more? If yes,then how ?",
+    "survey": "long",
+    "answer": ""
+  }
+]
