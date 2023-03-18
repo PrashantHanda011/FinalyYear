@@ -1,6 +1,11 @@
 import React, { useState, useRef } from "react";
 import '../Styles/Audio.css'
-const AudioRecorder = () => {
+import { BsPlayFill } from 'react-icons/bs'
+import { BsPauseFill } from 'react-icons/bs'
+import { BsStopFill } from 'react-icons/bs'
+import { BsDownload } from 'react-icons/bs'
+import { RxResume } from 'react-icons/rx'
+const AudioRecorder = ({ Audiorecord }) => {
   const [recording, setRecording] = useState(false);
   const [paused, setPaused] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
@@ -10,6 +15,7 @@ const AudioRecorder = () => {
   const chunks = useRef([]);
 
   const startRecording = () => {
+    console.log("hiuwdshb")
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       mediaRecorder.current = new MediaRecorder(stream);
 
@@ -42,6 +48,7 @@ const AudioRecorder = () => {
   const stopRecording = () => {
     mediaRecorder.current?.stop();
     setRecording(false);
+    Audiorecord(true)
     const now = new Date();
     const fileName = `audio-recording-${now.toISOString()}.webm`;
     localStorage.setItem(fileName, audioBlob);
@@ -62,31 +69,24 @@ const AudioRecorder = () => {
 
   return (
     <>
-      <div className="d-flex flex-column justify-content-start align-items-start">
-        <div className="p-text">
-          <p className="text">
-            If you face a problem at work, what is the first thing you do?
-
-          </p>
-        </div>
-        <div>
-
-          <button onClick={startRecording} disabled={recording}>
-            Start Recording
+      <div className="d-flex flex-column justify-content-start align-items-start mt-4">
+        <div className="d-flex justify-content-start flex-wrap">
+          <button className={`btn-audio  rounded ${recording && `btn-audio-disabled`}`} onClick={startRecording} disabled={recording}>
+            <span><BsPlayFill style={{ color: "white" }} fontSize={28} /></span> <span>Start Recording</span>
           </button>
-          <button onClick={pauseRecording} disabled={!recording || paused}>
-            Pause Recording
+          <button className={`btn-audio rounded ${!recording || paused && `btn-audio-disabled`}`} onClick={pauseRecording} disabled={!recording || paused} >
+            <BsPauseFill style={{ color: "white" }} fontSize={28} />Pause Recording
           </button>
-          <button onClick={resumeRecording} disabled={!recording || !paused}>
-            Resume Recording
+          <button className={`btn-audio rounded ${!recording || paused && `btn-audio-disabled`}`} onClick={resumeRecording} disabled={!recording || !paused}>
+            <RxResume fontSize={28} style={{ marginRight: "5px", fontWeight: 600 }} /> Resume Recording
           </button>
-          <button onClick={stopRecording} disabled={!recording}>
-            Stop Recording
+          <button className={`btn-audio rounded ${!recording && `btn-audio-disabled`}`} onClick={stopRecording} >
+            <BsStopFill style={{ color: "white" }} fontSize={28} /> Stop Recording
           </button>
           {downloadLink && (
             <>
-              <button onClick={handleDownloadClick}>Download Audio</button>
-              <button onClick={handlePlaybackClick}>Play Recorded Audio</button>
+              <button className="btn-audio rounded" onClick={handleDownloadClick}>Download Audio</button>
+              <button className="btn-audio rounded" onClick={handlePlaybackClick}>Play Recorded Audio</button>
 
             </>
           )}
