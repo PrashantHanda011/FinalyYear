@@ -1,0 +1,17 @@
+.d1_img img {
+  width: 90%;
+}
+
+.d1_head h5 {
+  font-size: 2rem;
+}
+
+.d1_head h5 span {
+  color: var(--Primary-Color);
+  font-weight: 700;
+}
+
+.d1_head p {
+  color: lightgray;
+  margin-top: 20px;
+}

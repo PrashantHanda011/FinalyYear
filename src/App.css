@@ -1,5 +1,11 @@
 * {
   margin: 0;
   box-sizing: border-box;
+  font-family: 'Be Vietnam Pro', sans-serif;
   padding: 0;
+}
+
+:root {
+  --Primary-Color-Gradient: linear-gradient(to left, #61045F, #AA076B);
+  --Primary-Color: #AA076B;
 }

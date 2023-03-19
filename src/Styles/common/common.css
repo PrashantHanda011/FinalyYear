@@ -1,0 +1,75 @@
+.btn-common {
+  background: #AA076B;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #61045F, #AA076B);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #61045F, #AA076B);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  border: none;
+  font-size: 1rem;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 600;
+}
+
+.btn-common:hover {
+  color: #AA076B;
+  transform: scale(1.1);
+  background: white;
+  transition: 0.3s;
+}
+
+.btn-common_selected {
+  color: #AA076B;
+  transform: scale(1.1);
+  font-weight: 600;
+  background: white;
+}
+
+.hint_box {
+  background: #AA076B;
+  background: -webkit-linear-gradient(to left, #61045F, #AA076B);
+  background: linear-gradient(to left, #61045F, #AA076B);
+  position: fixed;
+  top: 5%;
+  right: 5%;
+  padding: 0.5rem;
+  border-radius: 5%;
+}
+
+.textarea_border {
+  border: 3px solid #AA076B;
+  color: lightgray;
+  font-size: 1.1rem;
+  outline: none;
+  resize: none;
+}
+
+.textarea_border::placeholder {
+  color: #c6298a;
+
+}
+
+.btn-audio {
+  background: #AA076B;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #61045F, #AA076B);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #61045F, #AA076B);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.btn-audio-disabled {
+  background: grey;
+  color: #AA076B;
+}
