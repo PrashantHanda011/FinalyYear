@@ -1,0 +1,19 @@
+
+.cont {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 100vh; /* sets the container height to the full viewport height */
+    /* justify-content: space-between; */
+    flex-direction: column;
+    background-color: black;
+  }
+  
+  .center-image {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius:10px;
+  }
+.text{
+    color: white;
+}  
