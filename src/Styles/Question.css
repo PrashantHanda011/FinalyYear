@@ -15,3 +15,10 @@
   font-weight: 800;
   font-family: 'Be Vietnam Pro', sans-serif;
 }
+
+.surveryImage {
+  height: 40vh;
+  width: 40vw;
+  border: 5px solid var(--Primary-Color);
+  border-radius: 10px;
+}
