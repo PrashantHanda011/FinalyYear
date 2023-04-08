@@ -6,6 +6,7 @@ import Landing from './pages/Landing'
 import './Styles/common/common.css'
 import './App.css'
 import Question from './pages/Question'
+import Result from './pages/Result'
 function App() {
   return (
     <>
@@ -13,6 +14,7 @@ function App() {
         <Route exact path='/' element={<Landing />} />
         {/* <Route exact path='/' element={<Home />} /> */}
         <Route exact path='/questions' element={<Question />} />
+        <Route exact path='/result' element={<Result />} />
       </Routes>
     </>
   )

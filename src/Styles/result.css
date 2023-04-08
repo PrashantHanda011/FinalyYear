@@ -1,0 +1,23 @@
+.result-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+}
+
+.result-image-wrapper img {
+  width: 80%;
+}
+
+.result-content h2 {
+  font-size: 5rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.result-content h6 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  margin-bottom: 1.3rem;
+}

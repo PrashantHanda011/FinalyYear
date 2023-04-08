@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import '../Styles/Question.css'
 import '../Styles/common/common.css'
 import Description from './description/Description1';
@@ -12,16 +12,22 @@ import d6 from '../Assets/description/d6.png'
 import question from '../Components/Question.json'
 import AudioRecorder from '../Components/Audio';
 import img1 from '../Assets/description/Img1.jpeg'
+import { useNavigate } from 'react-router-dom';
 const Question = () => {
   const [Global, setGlobal] = useState({
     character: "",
     question: []
   });
-  console.log(Global)
   const [textArea, settextArea] = useState();
   const [ImagetextArea, setImagetextArea] = useState();
-  const [page, setpage] = useState(0);
-  const [QuestionNo, setQuestionNo] = useState(0);
+  const [page, setpage] = useState(7);
+  const [QuestionNo, setQuestionNo] = useState(9);
+
+  const [handWritingImages, sethandWritingImages] = useState({
+    img1: "",
+    img2: "",
+    img3: ""
+  });
 
   const handleQuestion = (item) => {
     console.log(item)
@@ -45,6 +51,11 @@ const Question = () => {
     settextArea("")
     setQuestionNo(QuestionNo + 1)
   }
+  const handleImageTextSubmit = () => {
+    setGlobal({ ...Global, question: [...Global?.question, { question: "Express your thoughts on this image.", answer: ImagetextArea, type: "Image" }] })
+    setImagetextArea("")
+    setQuestionNo(QuestionNo + 1)
+  }
 
   const [AudioStatus, setAudioStatus] = useState(false);
   const AudioStatusHandler = (val) => {
@@ -54,6 +65,40 @@ const Question = () => {
     setGlobal({ ...Global, question: [...Global?.question, { question: question[QuestionNo]?.question, answer: "audio", type: question[QuestionNo]?.survey }] })
     setAudioStatus(false)
     setQuestionNo(QuestionNo + 1)
+  }
+
+
+  const navigate = useNavigate()
+  const handleHandwritingImage = (name, e) => {
+    if (name === "img1") {
+      sethandWritingImages({ ...handWritingImages, img1: e.target.files[0] })
+    } else if (name === "img2") {
+      sethandWritingImages({ ...handWritingImages, img2: e.target.files[0] })
+    } else {
+      sethandWritingImages({ ...handWritingImages, img3: e.target.files[0] })
+    }
+
+  }
+  console.log(handWritingImages)
+
+
+
+  const imgRef1 = useRef()
+  const imgRef2 = useRef()
+  const imgRef3 = useRef()
+
+  const handleImageRef = (name) => {
+    if (name === "img1") {
+      imgRef1.current.click()
+    } else if (name === "img2") {
+      imgRef2.current.click()
+    } else {
+      imgRef3.current.click()
+    }
+  }
+
+  const handleFinalSubmit = () => {
+    navigate('/result')
   }
   return (
     <div className='container-fluid d-flex justify-content-center align-items-center bg-dark h-100 w-100 Question_wrapper'>
@@ -80,20 +125,20 @@ const Question = () => {
             <h2>Q {QuestionNo + 1}. {question[QuestionNo]?.question}</h2>
 
             <div className='d-flex col-10'>
-              <div className='d-flex flex-column mt-4 justify-content-center align-items-center w-100 col-7 '>
+              <div className='d-flex flex-column mt-4 justify-content-center w-50 align-items-center '>
                 {
                   question[QuestionNo]?.options?.map((item) => {
                     return <button onClick={() => {
                       handleQuestion(item)
-                    }} className={`align-self-start w-50 py-3 px-3 rounded my-2 ${Global?.question[QuestionNo]?.answer === item ? `btn-common_selected` : `btn-common`}`}>{item}</button>
+                    }} className={`align-self-start w-100 py-3 px-3 rounded my-2 ${Global?.question[QuestionNo]?.answer === item ? `btn-common_selected` : `btn-common`}`}>{item}</button>
                   })
                 }
 
               </div>
-              <div className='d-flex justify-content-start align-self-end col-3'>
+              <div className='d-flex align-items-start ps-5 mb-2 align-self-end'>
                 {
                   !!Global?.question[QuestionNo]?.answer &&
-                  <button className='btn-common px-3 py-2 rounded'
+                  <button className='btn-common px-3 mx-4 py-2 rounded'
                     onClick={() => setQuestionNo(QuestionNo + 1)}
                   >submit</button>
                 }
@@ -165,7 +210,7 @@ const Question = () => {
         (page == 6 && QuestionNo == 8) &&
         <>
           <div className='container d-flex flex-column align-items-center p-5 '>
-            <h2>Q {QuestionNo + 1}. {question[QuestionNo]?.question}</h2>
+            <h2>Q {QuestionNo + 1}. Express your thoughts on this image.</h2>
             <div className='mt-2'>
               <img src={img1} alt="img" className='surveryImage' />
             </div>
@@ -178,7 +223,7 @@ const Question = () => {
               {
                 !!ImagetextArea &&
                 <button className='btn-common px-3 py-2 rounded'
-                  onClick={handleAudioSubmit}
+                  onClick={handleImageTextSubmit}
                 >submit</button>
               }
             </div>
@@ -198,28 +243,28 @@ const Question = () => {
             <h2>Q {QuestionNo + 1}. Upload Images of your handwriting</h2>
             <div className='d-flex gap-4 flex-column'>
               <div>
-                <button className='btn-common px-3 py-2 me-5 rounded'>Upload Image</button>
-                <img src="" alt="img" />
+                <button className='btn-common px-3 py-2 me-5 rounded' onClick={() => handleImageRef("img1")} >Upload Image</button>
+                <img src={!!handWritingImages?.img1 && URL.createObjectURL(handWritingImages?.img1)} height={100} width={200} alt="img" />
               </div>
               <div>
-                <button className='btn-common px-3 py-2 me-5 rounded'>Upload Image</button>
-                <img src="" alt="img" />
+                <button className='btn-common px-3 py-2 me-5 rounded' onClick={() => handleImageRef("img2")}>Upload Image</button>
+                <img src={!!handWritingImages?.img2 && URL.createObjectURL(handWritingImages?.img2)} height={100} width={200} alt="img" />
               </div>
               <div>
-                <button className='btn-common px-3 py-2 me-5 rounded'>Upload Image</button>
-                <img src="" alt="img" />
+                <button className='btn-common px-3 py-2 me-5 rounded' onClick={() => handleImageRef("img3")}>Upload Image</button>
+                <img src={!!handWritingImages?.img3 && URL.createObjectURL(handWritingImages?.img3)} height={100} width={200} alt="img" />
               </div>
 
-              <input type="file" className='d-none' />
-              <input type="file" className='d-none' />
-              <input type="file" className='d-none' />
+              <input type="file" ref={imgRef1} onChange={(e) => handleHandwritingImage("img1", e)} className='d-none' />
+              <input type="file" ref={imgRef2} onChange={(e) => handleHandwritingImage("img2", e)} className='d-none' />
+              <input type="file" ref={imgRef3} onChange={(e) => handleHandwritingImage("img3", e)} className='d-none' />
             </div>
 
-            <div className='d-flex justify-content-end mt-4'>
+            <div className='d-flex justify-content-end mt-5'>
               {
-                !!ImagetextArea &&
-                <button className='btn-common px-3 py-2 rounded'
-                  onClick={handleAudioSubmit}
+                (!!handWritingImages.img1 && !!handWritingImages.img2 && !!handWritingImages.img3) &&
+                <button className='btn-common px-3 py-2 mt-3 rounded'
+                  onClick={handleFinalSubmit}
                 >submit</button>
               }
             </div>
