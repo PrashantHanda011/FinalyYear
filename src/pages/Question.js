@@ -11,17 +11,30 @@ import d5 from '../Assets/description/d5.png'
 import d6 from '../Assets/description/d6.png'
 import question from '../Components/Question.json'
 import AudioRecorder from '../Components/Audio';
+import img from '../Assets/description/final.png'
 import img1 from '../Assets/description/Img1.jpeg'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import finish from '../Assets/description/finish.png'
 const Question = () => {
+  const [ShowForm, setShowForm] = useState(3);
+
   const [Global, setGlobal] = useState({
+    name: "",
+    age: "",
+    gender: "",
+    email: "",
+    profession: "",
     character: "",
-    question: []
+    question: [],
+    media: {
+      images: []
+    }
   });
   const [textArea, settextArea] = useState();
   const [ImagetextArea, setImagetextArea] = useState();
-  const [page, setpage] = useState(7);
-  const [QuestionNo, setQuestionNo] = useState(9);
+  const [page, setpage] = useState(0);
+  const [QuestionNo, setQuestionNo] = useState(0);
 
   const [handWritingImages, sethandWritingImages] = useState({
     img1: "",
@@ -67,7 +80,7 @@ const Question = () => {
     setQuestionNo(QuestionNo + 1)
   }
 
-
+  console.log(Global)
   const navigate = useNavigate()
   const handleHandwritingImage = (name, e) => {
     if (name === "img1") {
@@ -79,8 +92,6 @@ const Question = () => {
     }
 
   }
-  console.log(handWritingImages)
-
 
 
   const imgRef1 = useRef()
@@ -97,8 +108,54 @@ const Question = () => {
     }
   }
 
-  const handleFinalSubmit = () => {
-    navigate('/result')
+
+  // final
+
+  const handleFinalSubmit = async () => {
+    try {
+      setpage(8)
+      setShowForm(0)
+      const formdata = new FormData();
+      formdata.append("file", handWritingImages?.img1)
+      formdata.append("upload_preset", "FinalYear")
+      const result1 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/image/upload", formdata)
+
+      const formdata2 = new FormData();
+      formdata2.append("file", handWritingImages?.img2)
+      formdata2.append("upload_preset", "FinalYear")
+      const result2 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/image/upload", formdata2)
+      const formdata3 = new FormData();
+      formdata3.append("file", handWritingImages?.img3)
+      formdata3.append("upload_preset", "FinalYear")
+      const result3 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/image/upload", formdata3)
+      console.log(result1, result2, result3)
+      const arr = [result1?.data?.secure_url, result2?.data?.secure_url, result3?.data?.secure_url]
+      setGlobal({ ...Global, media: { ...Global.media, images: arr } })
+      //navigate('/result')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const HandleInputChange = (e) => {
+    const { name, value } = e.target
+    setGlobal({ ...Global, [name]: value })
+  }
+
+
+
+  //api post
+
+
+  const handleAPiPost = async (e) => {
+    e.preventDefault()
+    console.log("ok")
+    try {
+      await axios.post("http://localhost:8080/api/user", Global)
+      setShowForm(3)
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <div className='container-fluid d-flex justify-content-center align-items-center bg-dark h-100 w-100 Question_wrapper'>
@@ -155,9 +212,6 @@ const Question = () => {
       {
         (page === 4 && question[QuestionNo]?.survey === "long") &&
         <>
-          {/* <div className='hint_box'>
-            Hint
-          </div> */}
           <div className='container p-5'>
             <h2 >Q {QuestionNo + 1}. {question[QuestionNo]?.question}</h2>
 
@@ -186,10 +240,10 @@ const Question = () => {
         <Description step={4} description={"Once you click on the start icon, you will be shown 1 question. You have to answer that question by recording a short 1-5 minute audio of your voice. Once done, click on the next page icon."} page={5} head="Audio Analysis" img={d4} setpage={setpage} />
       }
       {
-        (page == 5 && question[QuestionNo]?.survey === "audio") &&
+        (page === 5 && question[QuestionNo]?.survey === "audio") &&
         <>
           <div className='container d-flex flex-column p-5 '>
-            <h2>Q {QuestionNo + 1}. {question[QuestionNo]?.question}</h2>
+            <h2>Q9. At social events you rarely try to introduce yourself to new people and mostly talk to the ones you already know.</h2>
             <AudioRecorder Audiorecord={AudioStatusHandler} />
             <div className='d-flex justify-content-end mt-4'>
               {
@@ -207,7 +261,7 @@ const Question = () => {
         <Description step={5} description={"Once you click on the start icon, you will be shown 1 image. You have to describe how that image makes you feel by writing 5-20 sentences. Once done, click on the next page icon."} page={6} head="Image Analysis" img={d5} setpage={setpage} />
       }
       {
-        (page == 6 && QuestionNo == 8) &&
+        (page === 6 && QuestionNo === 8) &&
         <>
           <div className='container d-flex flex-column align-items-center p-5 '>
             <h2>Q {QuestionNo + 1}. Express your thoughts on this image.</h2>
@@ -233,11 +287,11 @@ const Question = () => {
 
 
       {
-        (page === 6 && QuestionNo == 9) &&
+        (page === 6 && QuestionNo === 9) &&
         <Description step={5} description={"Once you click on the start icon, you will be shown 1 image. You have to describe how that image makes you feel by writing 5-20 sentences. Once done, click on the next page icon."} page={7} head="Handwriting Analysis" img={d6} setpage={setpage} />
       }
       {
-        (page == 7 && QuestionNo == 9) &&
+        (page === 7 && QuestionNo === 9) &&
         <>
           <div className='container d-flex flex-column align-items-center p-5 '>
             <h2>Q {QuestionNo + 1}. Upload Images of your handwriting</h2>
@@ -255,6 +309,7 @@ const Question = () => {
                 <img src={!!handWritingImages?.img3 && URL.createObjectURL(handWritingImages?.img3)} height={100} width={200} alt="img" />
               </div>
 
+
               <input type="file" ref={imgRef1} onChange={(e) => handleHandwritingImage("img1", e)} className='d-none' />
               <input type="file" ref={imgRef2} onChange={(e) => handleHandwritingImage("img2", e)} className='d-none' />
               <input type="file" ref={imgRef3} onChange={(e) => handleHandwritingImage("img3", e)} className='d-none' />
@@ -268,9 +323,70 @@ const Question = () => {
                 >submit</button>
               }
             </div>
+
           </div>
         </>
       }
+
+      {
+        page === 8 &&
+        <div className='d-flex align-items-center col-12 justify-content-center'>
+          {
+            ShowForm === 1 ?
+              <>
+                <form className='col-4 border p-4 rounded'>
+                  <div class="form-group mb-3">
+                    <label for="exampleFormControlInput1">Name</label>
+                    <input onChange={HandleInputChange} name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name" />
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleFormControlInput1">Age</label>
+                    <input onChange={HandleInputChange} name="age" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter Age" />
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleFormControlSelect1">Gender</label>
+                    <select class="form-control" name="gender" onChange={HandleInputChange} id="exampleFormControlSelect1">
+                      <option className='text-dark'>Male</option>
+                      <option className='text-dark'>Female</option>
+                      <option className='text-dark'>Others</option>
+                    </select>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleFormControlInput1">Email address</label>
+                    <input onChange={HandleInputChange} name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter Email" />
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="exampleFormControlInput1">Profession</label>
+                    <input onChange={HandleInputChange} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Profession" />
+                  </div>
+                  <div className='d-flex justify-content-center rounded w-100 my-3 mt-4 rounded'>
+                    <button type="button" onClick={handleAPiPost} className='btn-common px-4 py-3 rounded'>Submit </button>
+                  </div>
+                </form>
+              </>
+              :
+              ShowForm === 0 ?
+                <>
+                  <div className='result-image-wrapper col-6 px-5'>
+                    <img src={img} alt="" />
+                  </div>
+                  <div className='col-6 result-content'>
+                    <h2>Hurray </h2>
+                    <h6>You Have Completed the Assesment</h6>
+                    <button className='btn-common p-3 rounded' onClick={() => setShowForm(1)}>Get Result</button>
+                  </div>
+                </> : <>
+                  <div className="col-6">
+                    <h1 className='text-center'>
+                      All Done!
+                    </h1>
+                    <img src={finish} className="w-75" alt="finish" />
+                  </div>
+                </>
+          }
+        </div>
+      }
+
 
     </div>
   );

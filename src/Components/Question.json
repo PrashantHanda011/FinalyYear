@@ -33,7 +33,7 @@
     ]
   },
   {
-    "question": "You usually stay calm even under a lot of ?",
+    "question": "Even a small mistake can cause you to doubt your overall abilities and knowledge ?",
     "survey": "short",
     "options": [
       "strongly disagree",
@@ -60,7 +60,7 @@
     "answer": ""
   },
   {
-    "question": "At social events you rarely try to introduce yourself to new people and mostly talk to the ones you already know ?",
+    "question": "You would pass along a good opportunity if you thought someone else needed it more? If yes,then how?",
     "survey": "long",
     "answer": ""
   },
