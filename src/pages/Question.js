@@ -151,7 +151,7 @@ const Question = () => {
     e.preventDefault()
     console.log("ok")
     try {
-      await axios.post("http://localhost:8080/api/user", Global)
+      await axios.post("https://mindology.onrender.com/api/user", Global)
       setShowForm(3)
     } catch (error) {
       console.log(error)
