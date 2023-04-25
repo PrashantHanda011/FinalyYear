@@ -8,8 +8,8 @@ const CharacterPage = ({ Global, setGlobal, setpage, head }) => {
       <h3 className='mb-4 character_head'>Choose A Character </h3>
       <div className='d-flex flex-wrap justify-content-center my-5'>
         {
-          characterData?.map((item) => {
-            return <div className='m-4 character_container' onClick={() => setGlobal({ ...Global, character: item?.name })} >
+          characterData?.map((item, index) => {
+            return <div key={index} className='m-4 character_container' onClick={() => setGlobal({ ...Global, character: item?.name })} >
               <img src={item?.img} alt="charcter img" className={`${Global?.character === item?.name && `selected_character_img`}`} width={160} height={160} />
               <h5 className={`text-center mt-4 ${Global?.character === item?.name && `selected_character_text`}`}>{item?.name}</h5>
             </div>

@@ -28,7 +28,8 @@ const Question = () => {
     character: "",
     question: [],
     media: {
-      images: []
+      images: [],
+      audioURL: ""
     }
   });
   const [textArea, settextArea] = useState();
@@ -43,7 +44,6 @@ const Question = () => {
   });
 
   const handleQuestion = (item) => {
-    console.log(item)
     if (Global?.question?.filter((item) => item.question == question[QuestionNo]?.question).length === 0) {
       setGlobal({ ...Global, question: [...Global?.question, { question: question[QuestionNo]?.question, answer: item, type: question[QuestionNo]?.survey }] })
     } else {
@@ -74,13 +74,22 @@ const Question = () => {
   const AudioStatusHandler = (val) => {
     setAudioStatus(val)
   }
-  const handleAudioSubmit = () => {
-    setGlobal({ ...Global, question: [...Global?.question, { question: question[QuestionNo]?.question, answer: "audio", type: question[QuestionNo]?.survey }] })
+  const handleAudioSubmit = async () => {
+    const formdata = new FormData();
+    formdata.append("file", Global?.media?.audioURL)
+    formdata.append("upload_preset", "FinalYear")
     setAudioStatus(false)
     setQuestionNo(QuestionNo + 1)
+    try {
+      const result1 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/upload", formdata)
+      setGlobal({ ...Global, media: { ...Global?.media, audioURL: result1?.data.url } })
+    } catch (error) {
+      console.log(error)
+      // setGlobal({ ...Global, question: [...Global?.question, { question: question[QuestionNo]?.question, answer: "audio", type: question[QuestionNo]?.survey }] })
+    }
+
   }
 
-  console.log(Global)
   const navigate = useNavigate()
   const handleHandwritingImage = (name, e) => {
     if (name === "img1") {
@@ -128,10 +137,9 @@ const Question = () => {
       formdata3.append("file", handWritingImages?.img3)
       formdata3.append("upload_preset", "FinalYear")
       const result3 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/image/upload", formdata3)
-      console.log(result1, result2, result3)
       const arr = [result1?.data?.secure_url, result2?.data?.secure_url, result3?.data?.secure_url]
       setGlobal({ ...Global, media: { ...Global.media, images: arr } })
-      //navigate('/result')
+      // navigate('/result')
     } catch (error) {
       console.log(error)
     }
@@ -149,9 +157,10 @@ const Question = () => {
 
   const handleAPiPost = async (e) => {
     e.preventDefault()
-    console.log("ok")
     try {
-      await axios.post("https://mindology.onrender.com/api/user", Global)
+      // http://localhost:3000/api/user
+      // https://mindology.onrender.com/api/user
+      await axios.post("http://localhost:8080/api/user", Global)
       setShowForm(3)
     } catch (error) {
       console.log(error)
@@ -184,8 +193,8 @@ const Question = () => {
             <div className='d-flex col-10'>
               <div className='d-flex flex-column mt-4 justify-content-center w-50 align-items-center '>
                 {
-                  question[QuestionNo]?.options?.map((item) => {
-                    return <button onClick={() => {
+                  question[QuestionNo]?.options?.map((item, index) => {
+                    return <button key={index} onClick={() => {
                       handleQuestion(item)
                     }} className={`align-self-start w-100 py-3 px-3 rounded my-2 ${Global?.question[QuestionNo]?.answer === item ? `btn-common_selected` : `btn-common`}`}>{item}</button>
                   })
@@ -219,7 +228,7 @@ const Question = () => {
               <div className='d-flex flex-column mt-4 justify-content-center align-items-center w-100 col-7 '>
                 {
                   question[QuestionNo]?.survey === "long" &&
-                  <textarea name="" id="" maxlength="150" value={textArea} onChange={handleTextArea} className='w-100 bg-dark p-3 textarea_border rounded' placeholder='Type Your answer here' rows="4"></textarea>
+                  <textarea name="" id="" maxLength="300" value={textArea} onChange={handleTextArea} className='w-100 bg-dark p-3 textarea_border rounded' placeholder='Type Your answer here in 150 words' rows="4"></textarea>
                 }
               </div>
               <div className='d-flex justify-content-end mt-4'>
@@ -244,7 +253,7 @@ const Question = () => {
         <>
           <div className='container d-flex flex-column p-5 '>
             <h2>Q9. At social events you rarely try to introduce yourself to new people and mostly talk to the ones you already know.</h2>
-            <AudioRecorder Audiorecord={AudioStatusHandler} />
+            <AudioRecorder Audiorecord={AudioStatusHandler} handleAudioSubmit={handleAudioSubmit} Global={Global} setGlobal={setGlobal} />
             <div className='d-flex justify-content-end mt-4'>
               {
                 AudioStatus &&
@@ -346,9 +355,10 @@ const Question = () => {
                   <div class="form-group mb-3">
                     <label for="exampleFormControlSelect1">Gender</label>
                     <select class="form-control" name="gender" onChange={HandleInputChange} id="exampleFormControlSelect1">
-                      <option className='text-dark'>Male</option>
-                      <option className='text-dark'>Female</option>
-                      <option className='text-dark'>Others</option>
+                      <option className='text-dark'>Select a Gender</option>
+                      <option className='text-dark' value="male">Male</option>
+                      <option className='text-dark' value="others">Others</option>
+                      <option className='text-dark' value="female">Female</option>
                     </select>
                   </div>
                   <div class="form-group mb-3">
@@ -357,7 +367,7 @@ const Question = () => {
                   </div>
                   <div class="form-group mb-3">
                     <label for="exampleFormControlInput1">Profession</label>
-                    <input onChange={HandleInputChange} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Profession" />
+                    <input onChange={HandleInputChange} type="text" name="profession" class="form-control" id="exampleFormControlInput1" placeholder="Enter Profession" />
                   </div>
                   <div className='d-flex justify-content-center rounded w-100 my-3 mt-4 rounded'>
                     <button type="button" onClick={handleAPiPost} className='btn-common px-4 py-3 rounded'>Submit </button>

@@ -5,7 +5,7 @@ import { BsPauseFill } from 'react-icons/bs'
 import { BsStopFill } from 'react-icons/bs'
 import { BsDownload } from 'react-icons/bs'
 import { RxResume } from 'react-icons/rx'
-const AudioRecorder = ({ Audiorecord }) => {
+const AudioRecorder = ({ Audiorecord, Global, setGlobal }) => {
   const [recording, setRecording] = useState(false);
   const [paused, setPaused] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
@@ -15,7 +15,6 @@ const AudioRecorder = ({ Audiorecord }) => {
   const chunks = useRef([]);
 
   const startRecording = () => {
-    console.log("hiuwdshb")
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       mediaRecorder.current = new MediaRecorder(stream);
 
@@ -25,6 +24,8 @@ const AudioRecorder = ({ Audiorecord }) => {
 
       mediaRecorder.current.addEventListener("stop", () => {
         const audioBlob = new Blob(chunks.current, { type: "audio/webm" });
+        setGlobal({ ...Global, media: { ...Global?.media, audioURL: audioBlob } })
+
         setAudioBlob(audioBlob);
         chunks.current = [];
         setDownloadLink(URL.createObjectURL(audioBlob));
@@ -46,12 +47,14 @@ const AudioRecorder = ({ Audiorecord }) => {
   };
 
   const stopRecording = () => {
+    // setGlobal({ ...Global, media: { ...Global?.media, audioURL: audioBlob } })
     mediaRecorder.current?.stop();
     setRecording(false);
     Audiorecord(true)
     const now = new Date();
     const fileName = `audio-recording-${now.toISOString()}.webm`;
     localStorage.setItem(fileName, audioBlob);
+    // handleAudioSubmit(audioBlob)
   };
 
   const handleDownloadClick = () => {
@@ -74,12 +77,12 @@ const AudioRecorder = ({ Audiorecord }) => {
           <button className={`btn-audio  rounded ${recording && `btn-audio-disabled`}`} onClick={startRecording} disabled={recording}>
             <span><BsPlayFill style={{ color: "white" }} fontSize={28} /></span> <span>Start Recording</span>
           </button>
-          <button className={`btn-audio rounded ${!recording || paused && `btn-audio-disabled`}`} onClick={pauseRecording} disabled={!recording || paused} >
+          {/* <button className={`btn-audio rounded ${!recording || paused && `btn-audio-disabled`}`} onClick={pauseRecording} disabled={!recording || paused} >
             <BsPauseFill style={{ color: "white" }} fontSize={28} />Pause Recording
           </button>
           <button className={`btn-audio rounded ${!recording || paused && `btn-audio-disabled`}`} onClick={resumeRecording} disabled={!recording || !paused}>
             <RxResume fontSize={28} style={{ marginRight: "5px", fontWeight: 600 }} /> Resume Recording
-          </button>
+          </button> */}
           <button className={`btn-audio rounded ${!recording && `btn-audio-disabled`}`} onClick={stopRecording} >
             <BsStopFill style={{ color: "white" }} fontSize={28} /> Stop Recording
           </button>
