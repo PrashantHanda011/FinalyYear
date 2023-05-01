@@ -343,7 +343,7 @@ const Question = () => {
           {
             ShowForm === 1 ?
               <>
-                <form className='col-4 border p-4 rounded'>
+                <form className='col-lg-4 col-md-6 col-sm-8 col-xs-12 border p-4 rounded'>
                   <div class="form-group mb-3">
                     <label for="exampleFormControlInput1">Name</label>
                     <input onChange={HandleInputChange} name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name" />
@@ -377,10 +377,10 @@ const Question = () => {
               :
               ShowForm === 0 ?
                 <>
-                  <div className='result-image-wrapper col-6 px-5'>
+                  <div className='col-md-6 col-lg-4 result-image-wrapper mb-4 mb-md-0'>
                     <img src={img} alt="" />
                   </div>
-                  <div className='col-6 result-content'>
+                  <div className='col-md-6 col-lg-8 result-content d-flex flex-column justify-content-center'>
                     <h2>Hurray </h2>
                     <h6>You Have Completed the Assesment</h6>
                     <button className='btn-common p-3 rounded' onClick={() => setShowForm(1)}>Get Result</button>
