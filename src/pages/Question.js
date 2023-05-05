@@ -32,6 +32,7 @@ const Question = () => {
       audioURL: ""
     }
   });
+  const [emailList, setEmailList] = useState([]);
   const [textArea, settextArea] = useState();
   const [ImagetextArea, setImagetextArea] = useState();
   const [page, setpage] = useState(0);
@@ -155,17 +156,34 @@ const Question = () => {
   //api post
 
 
+  // const handleAPiPost = async (e) => {
+  //   e.preventDefault()
+  //   try {
+  //     // http://localhost:3000/api/user
+  //     // https://mindology.onrender.com/api/user
+  //     await axios.post("https://mindology.onrender.com/api/user", Global)
+  //     setShowForm(3)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  
   const handleAPiPost = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      // http://localhost:3000/api/user
-      // https://mindology.onrender.com/api/user
-      await axios.post("https://mindology.onrender.com/api/user", Global)
-      setShowForm(3)
+      const existingUser = await axios.get(`https://mindology.onrender.com/api/user?email=${Global.email}`);
+      if (existingUser.data.length > 0) {
+        alert("This email is already registered");
+        return;
+      }
+  
+      await axios.post("https://mindology.onrender.com/api/user", Global);
+      setShowForm(3);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+
   return (
     <div className='container-fluid d-flex justify-content-center align-items-center bg-dark h-100 w-100 Question_wrapper'>
       {/* step1 */}
