@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+
 import '../Styles/Question.css'
 import '../Styles/common/common.css'
 import Description from './description/Description1';
@@ -32,7 +33,7 @@ const Question = () => {
       audioURL: ""
     }
   });
-  const [emailList, setEmailList] = useState([]);
+  const [submittedEmails, setSubmittedEmails] = useState([]);
   const [textArea, settextArea] = useState();
   const [ImagetextArea, setImagetextArea] = useState();
   const [page, setpage] = useState(0);
@@ -43,7 +44,7 @@ const Question = () => {
     img2: "",
     img3: ""
   });
-
+  
   const handleQuestion = (item) => {
     if (Global?.question?.filter((item) => item.question == question[QuestionNo]?.question).length === 0) {
       setGlobal({ ...Global, question: [...Global?.question, { question: question[QuestionNo]?.question, answer: item, type: question[QuestionNo]?.survey }] })
@@ -168,21 +169,41 @@ const Question = () => {
   //   }
   // }
   
+  // const handleAPiPost = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const existingUser = await axios.get(`https://mindology.onrender.com/api/user?email=${Global.email}`);
+  //     if (existingUser.data.length > 0) {
+  //       alert("This email is already registered");
+  //       return;
+  //     }
+  
+  //     await axios.post("https://mindology.onrender.com/api/user", Global);
+  //     setShowForm(3);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const handleAPiPost = async (e) => {
     e.preventDefault();
     try {
-      const existingUser = await axios.get(`https://mindology.onrender.com/api/user?email=${Global.email}`);
-      if (existingUser.data.length > 0) {
-        alert("This email is already registered");
+      // Check if there is already a response with the same email address
+      const { data: existingResponses } = await axios.get('https://mindology.onrender.com/api/user');
+      if (existingResponses.some(response => response.email === Global.email)) {
+        alert('Email address already exists. Please use a different email address.');
         return;
       }
   
-      await axios.post("https://mindology.onrender.com/api/user", Global);
+      // Add the new response
+      await axios.post('https://mindology.onrender.com/api/user', Global);
       setShowForm(3);
     } catch (error) {
       console.log(error);
     }
-  };
+  }
+  
+  
+  
 
   return (
     <div className='container-fluid d-flex justify-content-center align-items-center bg-dark h-100 w-100 Question_wrapper'>
@@ -414,7 +435,7 @@ const Question = () => {
           }
         </div>
       }
-
+{}
 
     </div>
   );
