@@ -33,6 +33,7 @@ const Question = () => {
       audioURL: ""
     }
   });
+  
   const [submittedEmails, setSubmittedEmails] = useState([]);
   const [textArea, settextArea] = useState();
   const [ImagetextArea, setImagetextArea] = useState();
@@ -93,6 +94,9 @@ const Question = () => {
   }
 
   const navigate = useNavigate()
+  const handleFeedbackClick = () => {
+    navigate('/feedback'); // Replace '/feedback' with the path to your feedback page
+  };
   const handleHandwritingImage = (name, e) => {
     if (name === "img1") {
       sethandWritingImages({ ...handWritingImages, img1: e.target.files[0] })
@@ -430,6 +434,7 @@ const Question = () => {
                       All Done!
                     </h1>
                     <img src={finish} className="w-75" alt="finish" />
+                    <button className='btn-common p-3 rounded' onClick={handleFeedbackClick} >Give Feedback</button>
                   </div>
                 </>
           }
