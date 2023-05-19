@@ -37,6 +37,7 @@ const Question = () => {
       audioURL: ""
     }
   });
+  
   const [submittedEmails, setSubmittedEmails] = useState([]);
   const [textArea, settextArea] = useState();
   const [ImagetextArea, setImagetextArea] = useState();
@@ -97,6 +98,9 @@ const Question = () => {
   }
 
   const navigate = useNavigate()
+  const handleFeedbackClick = () => {
+    navigate('/feedback'); // Replace '/feedback' with the path to your feedback page
+  };
   const handleHandwritingImage = (name, e) => {
     if (name === "img1") {
       sethandWritingImages({ ...handWritingImages, img1: e.target.files[0] })
@@ -399,6 +403,7 @@ const Question = () => {
               </> :
               ShowForm === 1 ?
                 <>
+<<<<<<< HEAD
                   <form className='col-4 border p-4 rounded' onSubmit={handleAPiPost}>
                     <div class="form-group mb-3 w-100">
                       <label for="exampleFormControlInput1">Name <span className='text-danger'>*</span></label>
@@ -429,6 +434,24 @@ const Question = () => {
                       <button type="button" onClick={handleAPiPost} className='btn-common px-4 py-3 rounded'>Submit </button>
                     </div>
                   </form>
+=======
+                  <div className='result-image-wrapper col-6 px-5'>
+                    <img src={img} alt="" />
+                  </div>
+                  <div className='col-6 result-content'>
+                    <h2>Hurray </h2>
+                    <h6>You Have Completed the Assesment</h6>
+                    <button className='btn-common p-3 rounded' onClick={() => setShowForm(1)}>Get Result</button>
+                  </div>
+                </> : <>
+                  <div className="col-6">
+                    <h1 className='text-center'>
+                      All Done!
+                    </h1>
+                    <img src={finish} className="w-75" alt="finish" />
+                    <button className='btn-common p-3 rounded' onClick={handleFeedbackClick} >Give Feedback</button>
+                  </div>
+>>>>>>> bc75a130903749a9e60218bf072cf08e4f71b975
                 </>
                 :
                 ShowForm === 2 ?
