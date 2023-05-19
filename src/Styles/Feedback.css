@@ -1,44 +1,43 @@
-/* FeedbackForm.css */
-body{
-    background-color: black;
+/* FeedbackForm.css body {
+  background-color: black;
 }
-.main{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
+
 form {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    /* height: 100vh;
-    margin-top: 20px; */
-  }
-  .illustrator-img{
-  width:80vh
-  }
-  
- 
-  
-  input[type="radio"],
-  textarea {
-    margin-left: 10px;
-  }
-  
-  button {
-    margin-top: 20px;
-    background-color: purple;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
- 
-  .textarea{
-    color: black;
-  }
-  
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.illustrator-img {
+  width: 80vh
+}
+
+
+
+input[type="radio"],
+textarea {
+  margin-left: 10px;
+}
+
+button {
+  margin-top: 20px;
+  background-color: purple;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+.textarea {
+  color: black;
+} */

@@ -10,15 +10,19 @@ import d3 from '../Assets/description/d3.png'
 import d4 from '../Assets/description/d4.png'
 import d5 from '../Assets/description/d5.png'
 import d6 from '../Assets/description/d6.png'
+import end from '../Assets/description/end.png'
 import question from '../Components/Question.json'
 import AudioRecorder from '../Components/Audio';
 import img from '../Assets/description/final.png'
 import img1 from '../Assets/description/Img1.jpeg'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import finish from '../Assets/description/finish.png'
+import finish from '../Assets/description/finish.gif'
+import Result from './Result';
+import FeedbackForm from './Feedback';
+import { Toaster, toast } from 'react-hot-toast';
 const Question = () => {
-  const [ShowForm, setShowForm] = useState(3);
+  const [ShowForm, setShowForm] = useState(0);
 
   const [Global, setGlobal] = useState({
     name: "",
@@ -44,7 +48,7 @@ const Question = () => {
     img2: "",
     img3: ""
   });
-  
+
   const handleQuestion = (item) => {
     if (Global?.question?.filter((item) => item.question == question[QuestionNo]?.question).length === 0) {
       setGlobal({ ...Global, question: [...Global?.question, { question: question[QuestionNo]?.question, answer: item, type: question[QuestionNo]?.survey }] })
@@ -122,7 +126,7 @@ const Question = () => {
 
   // final
 
-  const handleFinalSubmit = async () => {
+  const handleImageUpload = async () => {
     try {
       setpage(8)
       setShowForm(0)
@@ -168,7 +172,7 @@ const Question = () => {
   //     console.log(error)
   //   }
   // }
-  
+
   // const handleAPiPost = async (e) => {
   //   e.preventDefault();
   //   try {
@@ -177,7 +181,7 @@ const Question = () => {
   //       alert("This email is already registered");
   //       return;
   //     }
-  
+
   //     await axios.post("https://mindology.onrender.com/api/user", Global);
   //     setShowForm(3);
   //   } catch (error) {
@@ -186,24 +190,25 @@ const Question = () => {
   // };
   const handleAPiPost = async (e) => {
     e.preventDefault();
+    console.log(Global)
     try {
-      // Check if there is already a response with the same email address
-      const { data: existingResponses } = await axios.get('https://mindology.onrender.com/api/user');
-      if (existingResponses.some(response => response.email === Global.email)) {
-        alert('Email address already exists. Please use a different email address.');
+      if (!!Global?.name && !!Global?.email && !!Global?.profession) {
+        setShowForm(2);
+        // await axios.post('https://mindology.onrender.com/api/user', Global);
+      } else {
+        toast.error("Please Fill the Required Fields", {
+          toastId: 'success1',
+        })
         return;
       }
-  
       // Add the new response
-      await axios.post('https://mindology.onrender.com/api/user', Global);
-      setShowForm(3);
     } catch (error) {
       console.log(error);
     }
   }
-  
-  
-  
+
+
+
 
   return (
     <div className='container-fluid d-flex justify-content-center align-items-center bg-dark h-100 w-100 Question_wrapper'>
@@ -348,26 +353,27 @@ const Question = () => {
                 <button className='btn-common px-3 py-2 me-5 rounded' onClick={() => handleImageRef("img1")} >Upload Image</button>
                 <img src={!!handWritingImages?.img1 && URL.createObjectURL(handWritingImages?.img1)} height={100} width={200} alt="img" />
               </div>
-              <div>
+              {/* <div>
                 <button className='btn-common px-3 py-2 me-5 rounded' onClick={() => handleImageRef("img2")}>Upload Image</button>
                 <img src={!!handWritingImages?.img2 && URL.createObjectURL(handWritingImages?.img2)} height={100} width={200} alt="img" />
               </div>
               <div>
                 <button className='btn-common px-3 py-2 me-5 rounded' onClick={() => handleImageRef("img3")}>Upload Image</button>
                 <img src={!!handWritingImages?.img3 && URL.createObjectURL(handWritingImages?.img3)} height={100} width={200} alt="img" />
-              </div>
+              </div> */}
 
 
               <input type="file" ref={imgRef1} onChange={(e) => handleHandwritingImage("img1", e)} className='d-none' />
-              <input type="file" ref={imgRef2} onChange={(e) => handleHandwritingImage("img2", e)} className='d-none' />
-              <input type="file" ref={imgRef3} onChange={(e) => handleHandwritingImage("img3", e)} className='d-none' />
+              {/* <input type="file" ref={imgRef2} onChange={(e) => handleHandwritingImage("img2", e)} className='d-none' />
+              <input type="file" ref={imgRef3} onChange={(e) => handleHandwritingImage("img3", e)} className='d-none' /> */}
             </div>
 
             <div className='d-flex justify-content-end mt-5'>
+              {/* && !!handWritingImages.img2 && !!handWritingImages.img3 */}
               {
-                (!!handWritingImages.img1 && !!handWritingImages.img2 && !!handWritingImages.img3) &&
+                (!!handWritingImages.img1) &&
                 <button className='btn-common px-3 py-2 mt-3 rounded'
-                  onClick={handleFinalSubmit}
+                  onClick={handleImageUpload}
                 >submit</button>
               }
             </div>
@@ -380,63 +386,80 @@ const Question = () => {
         page === 8 &&
         <div className='d-flex align-items-center col-12 justify-content-center'>
           {
-            ShowForm === 1 ?
+            ShowForm === 0 ?
               <>
-                <form className='col-4 border p-4 rounded'>
-                  <div class="form-group mb-3">
-                    <label for="exampleFormControlInput1">Name</label>
-                    <input onChange={HandleInputChange} name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="exampleFormControlInput1">Age</label>
-                    <input onChange={HandleInputChange} name="age" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter Age" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="exampleFormControlSelect1">Gender</label>
-                    <select class="form-control" name="gender" onChange={HandleInputChange} id="exampleFormControlSelect1">
-                      <option className='text-dark'>Select a Gender</option>
-                      <option className='text-dark' value="male">Male</option>
-                      <option className='text-dark' value="others">Others</option>
-                      <option className='text-dark' value="female">Female</option>
-                    </select>
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="exampleFormControlInput1">Email address</label>
-                    <input onChange={HandleInputChange} name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter Email" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="exampleFormControlInput1">Profession</label>
-                    <input onChange={HandleInputChange} type="text" name="profession" class="form-control" id="exampleFormControlInput1" placeholder="Enter Profession" />
-                  </div>
-                  <div className='d-flex justify-content-center rounded w-100 my-3 mt-4 rounded'>
-                    <button type="button" onClick={handleAPiPost} className='btn-common px-4 py-3 rounded'>Submit </button>
-                  </div>
-                </form>
-              </>
-              :
-              ShowForm === 0 ?
+                <div className='result-image-wrapper col-6 px-5'>
+                  <img src={img} alt="" />
+                </div>
+                <div className='col-6 result-content'>
+                  <h2>Hurray </h2>
+                  <h6>You Have Completed the Assesment</h6>
+                  <button className='btn-common p-3 rounded' onClick={() => setShowForm(1)}>Get Result</button>
+                </div>
+              </> :
+              ShowForm === 1 ?
                 <>
-                  <div className='result-image-wrapper col-6 px-5'>
-                    <img src={img} alt="" />
-                  </div>
-                  <div className='col-6 result-content'>
-                    <h2>Hurray </h2>
-                    <h6>You Have Completed the Assesment</h6>
-                    <button className='btn-common p-3 rounded' onClick={() => setShowForm(1)}>Get Result</button>
-                  </div>
-                </> : <>
-                  <div className="col-6">
-                    <h1 className='text-center'>
-                      All Done!
-                    </h1>
-                    <img src={finish} className="w-75" alt="finish" />
-                  </div>
+                  <form className='col-4 border p-4 rounded' onSubmit={handleAPiPost}>
+                    <div class="form-group mb-3 w-100">
+                      <label for="exampleFormControlInput1">Name <span className='text-danger'>*</span></label>
+                      <input onChange={HandleInputChange} required name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name" />
+                    </div>
+                    <div class="form-group mb-3 w-100">
+                      <label for="exampleFormControlInput1">Age</label>
+                      <input onChange={HandleInputChange} name="age" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter Age" />
+                    </div>
+                    <div class="form-group mb-3 w-100">
+                      <label for="exampleFormControlSelect1">Gender</label>
+                      <select class="form-control" name="gender" onChange={HandleInputChange} id="exampleFormControlSelect1">
+                        <option className='text-dark'>Select a Gender</option>
+                        <option className='text-dark' value="male">Male</option>
+                        <option className='text-dark' value="others">Others</option>
+                        <option className='text-dark' value="female">Female</option>
+                      </select>
+                    </div>
+                    <div class="form-group mb-3 w-100">
+                      <label for="exampleFormControlInput1">Email address <span className='text-danger'>*</span></label>
+                      <input onChange={HandleInputChange} name="email" required type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter Email" />
+                    </div>
+                    <div class="form-group mb-3 w-100">
+                      <label for="exampleFormControlInput1">Profession <span className='text-danger'>*</span></label>
+                      <input onChange={HandleInputChange} type="text" required name="profession" class="form-control" id="exampleFormControlInput1" placeholder="Enter Profession" />
+                    </div>
+                    <div className='d-flex justify-content-center rounded w-100 my-3 mt-2 rounded'>
+                      <button type="button" onClick={handleAPiPost} className='btn-common px-4 py-3 rounded'>Submit </button>
+                    </div>
+                  </form>
                 </>
+                :
+                ShowForm === 2 ?
+                  <>
+                    <div className="col-6">
+                      <img src={finish} className="w-75" alt="finish" />
+
+                      <h1 className='text-center mt-2'>
+                        Getting Result ...
+                      </h1>
+                    </div>
+                  </>
+                  :
+                  ShowForm === 3 ?
+                    <Result showForm={ShowForm} setShowForm={setShowForm} />
+                    :
+                    ShowForm === 4 ?
+                      <FeedbackForm setShowForm={setShowForm} />
+                      :
+                      <div className='col-6'>
+                        <h3 className='text-center'>The End</h3>
+                        <img src={end} className='w-100' alt="the end" />
+                      </div>
           }
         </div>
       }
-{}
 
+      <Toaster
+        position="top-right"
+
+      />
     </div>
   );
 }

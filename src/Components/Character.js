@@ -1,5 +1,5 @@
 import captain from '../Assets/frontpage/captain.jpg'
-import thor from '../Assets/frontpage/thor.jfif'
+import thor from '../Assets/frontpage/thor.jpg'
 import scarlet from '../Assets/frontpage/scarlet.jfif'
 import doctor from '../Assets/frontpage/doctor.jfif'
 import iron from '../Assets/frontpage/iron.jfif'

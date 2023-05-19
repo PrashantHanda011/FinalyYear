@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "../Styles/Feedback.css";
-import illustratorImg from "../Assets/feedback.png";
+import illustratorImg from "../Assets/description/feedback.png";
 
-function FeedbackForm() {
+function FeedbackForm({ setShowForm }) {
   const [isSatisfied, setIsSatisfied] = useState(true);
   const [feedback, setFeedback] = useState("");
 
@@ -21,49 +21,54 @@ function FeedbackForm() {
   };
 
   return (
-    <div className="main">
-  <div> <img src={illustratorImg} alt="Illustrator" className="illustrator-img" /></div>
-    <form onSubmit={handleSubmit} className="feedback-form">
-       
-     
-      <div>
-        <p>Are you satisfied with the results?</p>
-        <label>
-          <input
-            type="radio"
-            name="satisfaction"
-            value="satisfied"
-            checked={isSatisfied}
-            onChange={handleRadioChange}
-          />
-          Yes
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="satisfaction"
-            value="not-satisfied"
-            checked={!isSatisfied}
-            onChange={handleRadioChange}
-          />
-          No
-        </label>
-      </div>
-      <div>
-        <label>
-          <p>Feedback:</p>
+    <div className="main col-12 d-flex justify-content-center align-items-center">
+      <div className="col-5 p-4"> <img src={illustratorImg} alt="Illustrator" className="illustrator-img w-100" /></div>
+      <form onSubmit={handleSubmit} className="feedback-form col-4 border rounded p-4 ">
+        <div>
+          <h4>Are you satisfied with the results?</h4>
+          <label className="me-3">
+            <input
+              type="radio"
+              name="satisfaction"
+              value="satisfied"
+              checked={isSatisfied}
+              onChange={handleRadioChange}
+            />
+            <span className="ms-1">
+              Yes
+            </span>
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="satisfaction"
+              value="not-satisfied"
+              checked={!isSatisfied}
+              onChange={handleRadioChange}
+            />
+            <span className="ms-1">
+              No
+            </span>
+          </label>
+        </div>
+
+        <div className="w-100  mt-3">
+          <p className="mb-1">Feedback:</p>
           <textarea
             value={feedback}
-            onChange={handleFeedbackChange} className="textarea"
+            rows={4}
+            className="w-100 rounded p-2 text-black"
+            placeholder="Type Your Feedback here ..."
+            onChange={handleFeedbackChange}
           />
-        </label>
-      </div>
-      <div>
-        <button type="submit">Submit</button>
-      </div>
-    </form>
+        </div>
+        <div className="d-flex justify-content-center w-100 mt-3">
+          <button className="btn-common px-3 py-2 rounded" type="submit" onClick={() => setShowForm(5)}>Submit</button>
+        </div>
+      </form>
     </div>
-  
+
   );
 }
 

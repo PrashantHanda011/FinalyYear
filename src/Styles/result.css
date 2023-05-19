@@ -21,3 +21,7 @@
   margin: 1rem 0;
   margin-bottom: 1.3rem;
 }
+
+.result-box h5 {
+  font-size: 1.1rem;
+}
