@@ -202,7 +202,7 @@ const Question = () => {
     try {
       if (!!Global?.name && !!Global?.email && !!Global?.profession) {
         setShowForm(2);
-        const resp = await axios.post('http://localhost:8080/api/user', Global);
+        const resp = await axios.post('https://mindology2.onrender.com/api/user', Global);
         setAPIResult(resp?.data)
         setShowForm(3);
         console.log(resp)
