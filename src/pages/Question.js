@@ -22,8 +22,7 @@ import Result from './Result';
 import FeedbackForm from './Feedback';
 import { Toaster, toast } from 'react-hot-toast';
 const Question = () => {
-  const [ShowForm, setShowForm] = useState(0);
-
+  const [ShowForm, setShowForm] = useState(5)
   const [Global, setGlobal] = useState({
     name: "",
     age: "",
@@ -31,17 +30,18 @@ const Question = () => {
     email: "",
     profession: "",
     character: "",
+    movie: "",
     question: [],
     media: {
       images: [],
       audioURL: ""
     }
   });
-  
+
   const [submittedEmails, setSubmittedEmails] = useState([]);
   const [textArea, settextArea] = useState();
   const [ImagetextArea, setImagetextArea] = useState();
-  const [page, setpage] = useState(0);
+  const [page, setpage] = useState(8);
   const [QuestionNo, setQuestionNo] = useState(0);
 
   const [handWritingImages, sethandWritingImages] = useState({
@@ -139,15 +139,16 @@ const Question = () => {
       formdata.append("upload_preset", "FinalYear")
       const result1 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/image/upload", formdata)
 
-      const formdata2 = new FormData();
-      formdata2.append("file", handWritingImages?.img2)
-      formdata2.append("upload_preset", "FinalYear")
-      const result2 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/image/upload", formdata2)
-      const formdata3 = new FormData();
-      formdata3.append("file", handWritingImages?.img3)
-      formdata3.append("upload_preset", "FinalYear")
-      const result3 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/image/upload", formdata3)
-      const arr = [result1?.data?.secure_url, result2?.data?.secure_url, result3?.data?.secure_url]
+      // const formdata2 = new FormData();
+      // formdata2.append("file", handWritingImages?.img2)
+      // formdata2.append("upload_preset", "FinalYear")
+      // const result2 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/image/upload", formdata2)
+      // const formdata3 = new FormData();
+      // formdata3.append("file", handWritingImages?.img3)
+      // formdata3.append("upload_preset", "FinalYear")
+      // const result3 = await axios.post("https://api.cloudinary.com/v1_1/sinox-technology/image/upload", formdata3)
+      // , result2?.data?.secure_url, result3?.data?.secure_url
+      const arr = [result1?.data?.secure_url]
       setGlobal({ ...Global, media: { ...Global.media, images: arr } })
       // navigate('/result')
     } catch (error) {
@@ -160,7 +161,7 @@ const Question = () => {
     setGlobal({ ...Global, [name]: value })
   }
 
-
+  console.log(Global.question.slice(7, 8))
 
   //api post
 
@@ -192,13 +193,19 @@ const Question = () => {
   //     console.log(error);
   //   }
   // };
+
+
+  const [APIResult, setAPIResult] = useState("");
   const handleAPiPost = async (e) => {
     e.preventDefault();
     console.log(Global)
     try {
       if (!!Global?.name && !!Global?.email && !!Global?.profession) {
         setShowForm(2);
-        // await axios.post('https://mindology.onrender.com/api/user', Global);
+        const resp = await axios.post('http://localhost:8080/api/user', Global);
+        setAPIResult(resp?.data)
+        setShowForm(3);
+        console.log(resp)
       } else {
         toast.error("Please Fill the Required Fields", {
           toastId: 'success1',
@@ -207,6 +214,8 @@ const Question = () => {
       }
       // Add the new response
     } catch (error) {
+      setShowForm(1)
+      toast.error("A user already Exist with this email id!",)
       console.log(error);
     }
   }
@@ -218,10 +227,27 @@ const Question = () => {
     <div className='container-fluid d-flex justify-content-center align-items-center bg-dark h-100 w-100 Question_wrapper'>
       {/* step1 */}
       {
+        page === -1 && <>
+          <div>
+            <form className=' border p-4 rounded w-100  '>
+              <label for="exampleFormControlInput1 " className='mb-1'>Enter Your Age<span className='text-danger'>*</span></label>
+              <input className='w-100 text-dark' style={{ width: "20vw" }} onChange={(e) => setGlobal({ ...Global, age: e.target.value })} value={Global?.age} max={100} min={10} required name="age" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter Age" />
+              {
+                !!Global?.age &&
+                <div className='d-flex justify-content-center mt-3'>
+                  <button className='btn-common p-2 rounded' onClick={() => setpage(0)}>Submit</button>
+                </div>
+              }
+            </form>
+          </div>
+        </>
+      }
+      {
         page === 0 && <Description step={1} page={1}
           description="Once you click on the start icon, you will be shown 5 different fictional famous characters. These all characters are different unique mixes of the BIG 5 personality traits (extroversion, agreeableness, openness, conscientiousness, and neuroticism). Choose the character which you thinks resembles your personality the most. You can only pick one character so take a few minutes to think deeply and then choose 1. Once done, click on the next page icon."
           head="Choose a Character" img={d1} setpage={setpage} />
       }
+
       {
         page === 1 &&
         <CharacterPage Global={Global} setGlobal={setGlobal} setpage={setpage} />
@@ -403,55 +429,32 @@ const Question = () => {
               </> :
               ShowForm === 1 ?
                 <>
-<<<<<<< HEAD
                   <form className='col-4 border p-4 rounded' onSubmit={handleAPiPost}>
                     <div class="form-group mb-3 w-100">
                       <label for="exampleFormControlInput1">Name <span className='text-danger'>*</span></label>
-                      <input onChange={HandleInputChange} required name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name" />
-                    </div>
-                    <div class="form-group mb-3 w-100">
-                      <label for="exampleFormControlInput1">Age</label>
-                      <input onChange={HandleInputChange} name="age" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter Age" />
+                      <input onChange={HandleInputChange} value={Global?.name} required name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name" />
                     </div>
                     <div class="form-group mb-3 w-100">
                       <label for="exampleFormControlSelect1">Gender</label>
                       <select class="form-control" name="gender" onChange={HandleInputChange} id="exampleFormControlSelect1">
-                        <option className='text-dark'>Select a Gender</option>
+                        <option className='text-dark'>{!!Global?.gender ? Global?.gender : "Select a Gender"}</option>
                         <option className='text-dark' value="male">Male</option>
-                        <option className='text-dark' value="others">Others</option>
                         <option className='text-dark' value="female">Female</option>
+                        <option className='text-dark' value="others">Others</option>
                       </select>
                     </div>
                     <div class="form-group mb-3 w-100">
                       <label for="exampleFormControlInput1">Email address <span className='text-danger'>*</span></label>
-                      <input onChange={HandleInputChange} name="email" required type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter Email" />
+                      <input onChange={HandleInputChange} name="email" value={Global?.email} required type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter Email" />
                     </div>
                     <div class="form-group mb-3 w-100">
                       <label for="exampleFormControlInput1">Profession <span className='text-danger'>*</span></label>
-                      <input onChange={HandleInputChange} type="text" required name="profession" class="form-control" id="exampleFormControlInput1" placeholder="Enter Profession" />
+                      <input onChange={HandleInputChange} type="text" value={Global?.profession} required name="profession" class="form-control" id="exampleFormControlInput1" placeholder="Enter Profession" />
                     </div>
                     <div className='d-flex justify-content-center rounded w-100 my-3 mt-2 rounded'>
                       <button type="button" onClick={handleAPiPost} className='btn-common px-4 py-3 rounded'>Submit </button>
                     </div>
                   </form>
-=======
-                  <div className='result-image-wrapper col-6 px-5'>
-                    <img src={img} alt="" />
-                  </div>
-                  <div className='col-6 result-content'>
-                    <h2>Hurray </h2>
-                    <h6>You Have Completed the Assesment</h6>
-                    <button className='btn-common p-3 rounded' onClick={() => setShowForm(1)}>Get Result</button>
-                  </div>
-                </> : <>
-                  <div className="col-6">
-                    <h1 className='text-center'>
-                      All Done!
-                    </h1>
-                    <img src={finish} className="w-75" alt="finish" />
-                    <button className='btn-common p-3 rounded' onClick={handleFeedbackClick} >Give Feedback</button>
-                  </div>
->>>>>>> bc75a130903749a9e60218bf072cf08e4f71b975
                 </>
                 :
                 ShowForm === 2 ?
@@ -466,14 +469,22 @@ const Question = () => {
                   </>
                   :
                   ShowForm === 3 ?
-                    <Result showForm={ShowForm} setShowForm={setShowForm} />
+                    <Result APIResult={APIResult} showForm={ShowForm} setShowForm={setShowForm} />
                     :
                     ShowForm === 4 ?
-                      <FeedbackForm setShowForm={setShowForm} />
+                      <FeedbackForm setShowForm={setShowForm} APIResult={APIResult} />
                       :
                       <div className='col-6'>
-                        <h3 className='text-center'>The End</h3>
-                        <img src={end} className='w-100' alt="the end" />
+                        <h3 className='text-center '>The End</h3>
+                        <div className='d-flex align-items-center gap-5'>
+                          <div className='col-6'>
+
+                            <img src={end} className='w-100' alt="the end" />
+                          </div>
+                          <div className='col-6'>
+                            <button className='btn-common p-2 rounded' onClick={() => setShowForm(3)}>Show results</button>
+                          </div>
+                        </div>
                       </div>
           }
         </div>

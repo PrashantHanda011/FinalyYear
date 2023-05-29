@@ -28,14 +28,17 @@
   border-radius: 0 0 0 10px;
   background: linear-gradient(to left, #61045F, #AA076B);
 }
+
 /* For screens that are medium-sized or larger */
 @media (min-width: 768px) {
   .landing_wrapper {
     display: flex;
   }
+
   .landing_wrapper .container {
     width: 50%;
   }
+
   .landing_wrapper .landing_heading {
     padding-left: 30px;
   }
@@ -46,22 +49,28 @@
   .landing_wrapper {
     flex-direction: column;
   }
+
   .landing_wrapper .container {
     width: 100%;
   }
+
   .landing_wrapper .landing_heading {
     padding-left: 0;
     margin-top: 30px;
   }
+
   .landing_wrapper .landing_heading h2 {
     font-size: 28px;
   }
+
   .landing_wrapper .landing_heading small {
     font-size: 16px;
   }
+
   .landing_wrapper .landing_heading p {
     font-size: 14px;
   }
+
   .landing_wrapper .btn-common {
     font-size: 16px;
   }
