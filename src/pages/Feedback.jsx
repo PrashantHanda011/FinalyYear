@@ -30,7 +30,7 @@ function FeedbackForm({ setShowForm, APIResult }) {
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:8080/api/user/feedback/${APIResult?.data?._id}`, feedback)
+      await axios.patch(`https://mindology2.onrender.com/api/user/feedback/${APIResult?.data?._id}`, feedback)
       setShowForm(5)
     } catch (error) {
 
