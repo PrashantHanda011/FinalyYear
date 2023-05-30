@@ -22,7 +22,7 @@ import Result from './Result';
 import FeedbackForm from './Feedback';
 import { Toaster, toast } from 'react-hot-toast';
 const Question = () => {
-  const [ShowForm, setShowForm] = useState(5)
+  const [ShowForm, setShowForm] = useState(0)
   const [Global, setGlobal] = useState({
     name: "",
     age: "",
@@ -41,7 +41,7 @@ const Question = () => {
   const [submittedEmails, setSubmittedEmails] = useState([]);
   const [textArea, settextArea] = useState();
   const [ImagetextArea, setImagetextArea] = useState();
-  const [page, setpage] = useState(8);
+  const [page, setpage] = useState(-1);
   const [QuestionNo, setQuestionNo] = useState(0);
 
   const [handWritingImages, sethandWritingImages] = useState({
